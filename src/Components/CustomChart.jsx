@@ -2,6 +2,7 @@ import CreateBar from "./CreateBar";
 import { CHART_HEIGHT, CHART_WIDTH } from "../ChartConfig";
 
 const CreateChart = (dataSet) => {
+	console.log(dataSet);
 	const x0 = 100;
 	const xAxisLength = CHART_WIDTH - x0 * 2;
 

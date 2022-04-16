@@ -5,11 +5,13 @@ import { labels } from "./ChartConfig";
 
 const App = () => {
 	const [dataSet, setDataSet] = useState(
-		Object.fromEntries(labels.map((label) => [label, 0]))
+		Object.fromEntries(labels.map((label) => [label, ""]))
 	);
 	const [dataSetChart, setDataSetChart] = useState(null);
 
-	const isPositiveAndNonZero = (val) => val >= 0;
+	const isPositiveAndNonZero = (val) => {
+		return val === "" || (val !== "" && parseInt(val) >= 0);
+	};
 	const validateDataSet = (data) => {
 		return (
 			data !== null &&
@@ -24,7 +26,7 @@ const App = () => {
 
 		setDataSet({
 			...dataSet,
-			[evt.target.name]: parseInt(value),
+			[evt.target.name]: value,
 		});
 	};
 
@@ -43,6 +45,7 @@ const App = () => {
 							name={eachLabel}
 							value={dataSet[eachLabel]}
 							min={0}
+							// pattern="[0-9]"
 							placeholder={"Enter a number"}
 							onChange={(e) => {
 								handleChange(e);
@@ -55,8 +58,17 @@ const App = () => {
 				<div className="SubmitButton">
 					<button
 						onClick={() => {
-							if (validateDataSet(dataSet))
-								setDataSetChart(dataSet);
+							if (validateDataSet(dataSet)) {
+								// data.map((label) => [label, 0])
+
+								const data = Object.fromEntries(
+									Object.entries(dataSet).map((obj) => [
+										obj[0],
+										obj[1] === "" ? 0 : parseInt(obj[1]),
+									])
+								);
+								setDataSetChart(data);
+							}
 						}}
 					>
 						Submit
